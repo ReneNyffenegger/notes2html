@@ -25,7 +25,7 @@ for my $pass (1..2) {
   for my $file (glob "$in_dir/*") {
     next if $file =~ /\.swp$/;
     next unless -f $file;
-    next if $file =~ /\./;
+    next if $file =~ /\.[^\/\\]*$/;
     process_a_note($pass, $file);
   }
 }
@@ -96,7 +96,7 @@ sub process_a_note { # {{{
     if ($id) {
 
        if ($pass == 1) {
-          die "$file: id $id already found in $ids{$id}{file}" if exists $ids{$id};
+          die "$file: id $id already found in $ids{$id}{file}" if exists $ids{$id} and $ids{$id}{file} ne '?';
           $ids{$id}{file}=$file;
        }
 
@@ -195,7 +195,11 @@ sub process_a_note { # {{{
            my $ret = '';
 
            if ($pass == 1) {
-             $ids{$1}->{links_here}->{$current_id} =1;
+             $ids{$1}{links_here}->{$current_id} =1;
+
+             unless (exists $ids{$1}{file}) {
+               $ids{$1}{file} = '?';
+             }
 
            }
            else {
