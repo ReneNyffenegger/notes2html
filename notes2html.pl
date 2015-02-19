@@ -5,18 +5,27 @@ use diagnostics;
 use File::Slurp;
 use utf8;
 
+use Getopt::Long;
+use File::Basename;
+
+
 my %files;
 my %ids;
 
-my $debug = 1;
+GetOptions (
+    'debug'    => \my $debug
+);
+
+my $in_dir   = shift or die;
+my $out_dir  = shift or die;
 
 
-my $out_dir = '/lib/notes2html/test_out/';
 
 for my $pass (1..2) {
-  for my $file (glob '*') {
+  for my $file (glob "$in_dir/*") {
     next if $file =~ /\.swp$/;
     next unless -f $file;
+    next if $file =~ /\./;
     process_a_note($pass, $file);
   }
 }
@@ -25,8 +34,10 @@ for my $pass (1..2) {
 
 sub process_a_note { # {{{
 
-  my $pass = shift;
-  my $file = shift;
+  my $pass           = shift;
+  my $file_with_path = shift;
+
+  my $file           = basename ($file_with_path);
 
   my $level = 0;
 
@@ -43,7 +54,7 @@ sub process_a_note { # {{{
 
     my $class_published = $files{$file}{publish_sign} eq '-' ? 'private' : 'public';
 
-    open $out, '>:encoding(UTF-8)', "$out_dir/$file.html";
+    open $out, '>:encoding(UTF-8)', "$out_dir/$file.html" or die "could not open $out_dir/$file.html";
     print $out "<!DOCTYPE html>\n";
     print $out qq{<html><head>
 <title>$files{$file}{title}</title>
@@ -54,7 +65,7 @@ sub process_a_note { # {{{
 
   } # }}}
 
-  my @lines = read_file($file, binmode => ':utf8');
+  my @lines = read_file($file_with_path, binmode => ':utf8');
 
 
   my $publish_sign = shift @lines; # {{{
@@ -80,12 +91,12 @@ sub process_a_note { # {{{
   } # }}}
 
   for my $line (@lines) { # {{{
-    my ($id) = $1 if $line =~ s/\bid=(\w+)//;
+    my $id = $2 if $line =~ s/(^|\s)id=(\w+)//;
 
     if ($id) {
 
        if ($pass == 1) {
-          die "$file, $id alredy found in $ids{$id}{file}" if exists $ids{$id};
+          die "$file: id $id already found in $ids{$id}{file}" if exists $ids{$id};
           $ids{$id}{file}=$file;
        }
 
@@ -159,75 +170,77 @@ sub process_a_note { # {{{
     } # }}}
     else {                       # {{{ The rest
 
-#     if ($pass == 2) {
-        if ($id) {
+      if ($id) {
+        if ($pass == 2) {
           print $out " id=\"$id\"";
-          print "Warning id found withoht heading, implement me later!\n";
         }
+        else {
+          print "Warning id found in $file without heading, implement me later!\n";
+        }
+      }
 
-        if ($line =~ /\w/) { # {{{ Text that belongs to a paragraph
+      if ($line =~ /\w/) { # {{{ Text that belongs to a paragraph
 
-           unless ($in_p) {
-
-             if ($pass == 2) {
-               print $out "<p>\n";
-               $in_p = 1;
-             }
-
-           }
-
-           $line =~ s{→ *(\w+)}{
-
-             my $ret = '';
-
-             if ($pass == 1) {
-               $ids{$1}->{links_here}->{$current_id} =1;
-
-             }
-             else {
-
-               if ($files{$ids{$1}{file}}{publish_sign} eq '+') {
-  
-                 if ($ids{$1}{anchor}) {
-    
-                   $ret = "<a href=\"$ids{$1}{file}.html#$1\">";
-    
-                 }
-                 else {
-    
-                   $ret = "<a href=\"$ids{$1}{file}.html\">";
-                 }
-    
-                 $ret .= $ids{$1}{title};
-    
-                 $ret .= '</a>';
-               }
-               else {
-                 $ret = "<i>$ids{$1}{title}</i>";
-               }
-             }
-             $ret;
-
-           }ge;
+         unless ($in_p) {
 
            if ($pass == 2) {
+             print $out "<p>\n";
+             $in_p = 1;
+           }
 
-             $line =~ s/^\s*//;
-             $line =~ s/\s*$//;
-             print $out "$line\n";
-          }
+         }
 
-        } # }}}
-        else {               # {{{ Empty line (or whitespaces only)
+         $line =~ s{→ *(\w+)}{
 
-          if ($in_p) {
-            print $out "</p>\n";
-            $in_p = 0;
-          }
+           my $ret = '';
 
-        } # }}}
+           if ($pass == 1) {
+             $ids{$1}->{links_here}->{$current_id} =1;
 
-#     }
+           }
+           else {
+
+             if ($files{$ids{$1}{file}}{publish_sign} eq '+') {
+
+               if ($ids{$1}{anchor}) {
+  
+                 $ret = "<a href=\"$ids{$1}{file}.html#$1\">";
+  
+               }
+               else {
+  
+                 $ret = "<a href=\"$ids{$1}{file}.html\">";
+               }
+  
+               $ret .= $ids{$1}{title};
+  
+               $ret .= '</a>';
+             }
+             else {
+               $ret = "<i>$ids{$1}{title}</i>";
+             }
+           }
+           $ret;
+
+         }ge;
+
+         if ($pass == 2) {
+
+           $line =~ s/^\s*//;
+           $line =~ s/\s*$//;
+           print $out "$line\n";
+        }
+
+      } # }}}
+      else {               # {{{ Empty line (or whitespaces only)
+
+        if ($in_p) {
+          print $out "</p>\n";
+          $in_p = 0;
+        }
+
+      } # }}}
+
 
     } # }}}
 
