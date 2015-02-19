@@ -111,7 +111,7 @@ sub process_a_note { # {{{
 
       if ($pass == 1 and $id) {
         $ids{$id}{title} = $h;
-        $ids{$id}{anchor} = 1;
+        $ids{$id}{is_anchor} = 1;
       }
     }
 
@@ -202,7 +202,7 @@ sub process_a_note { # {{{
 
              if ($files{$ids{$1}{file}}{publish_sign} eq '+') {
 
-               if ($ids{$1}{anchor}) {
+               if ($ids{$1}{is_anchor}) {
   
                  $ret = "<a href=\"$ids{$1}{file}.html#$1\">";
   
@@ -279,10 +279,10 @@ sub links_here { # {{{
         $first = 0;
         print $out "<p class='links_here'>Inbound links\n";
       }
-      print $out "<br><a href=\"$ids{$links_here_id}{file}.html\"";
+      print $out "<br><a href=\"$ids{$links_here_id}{file}.html";
 
-      if ($ids{$links_here_id}{anchor}) {
-        print $out "#$ids{$links_here_id}{anchor}";
+      if ($ids{$links_here_id}{is_anchor}) {
+        print $out "#$links_here_id";
       }
       
       print $out "\">$ids{$links_here_id}{title}";
