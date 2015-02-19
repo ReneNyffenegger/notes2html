@@ -1,0 +1,13 @@
++
+$ Bar
+
+{ Some bar id=some_bar
+
+  well, some bar.
+
+}
+{ Other bar id=other_bar
+
+  oh, the other bar.
+
+}

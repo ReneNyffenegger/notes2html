@@ -1,0 +1,33 @@
++
+$ Baz
+
+{ This is a h2
+
+
+  { This is a h3 id=baz_h3
+
+    { This is a h4
+
+      This is a paragraph below
+      h4
+
+      and yet
+      another 
+      paragraph
+
+    }
+
+    { This is another h4
+
+      This paragraph belongs to «this is another h4».
+
+      Take me to →other_bar or →some_bar. Alternatively, take me to →bar, the file.
+    }
+
+  }
+  { This is another h3
+
+    text, text and text.
+  }
+
+}

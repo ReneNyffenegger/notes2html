@@ -1,0 +1,7 @@
++
+$ Published note 1
+
+This published note is linked by an unpublished note (→unpublished_note_1). Since it
+is unpublished, the inbound link cannot *and* the link cannot be displayed.
+
+Here's a link to a published note: →baz_h3.

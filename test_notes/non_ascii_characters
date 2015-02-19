@@ -1,0 +1,10 @@
++
+$ Non ASCII Characters
+
+{ Umlaute
+
+  ä, ö, ü, Ä, Ö, Ü.
+}
+{ Others
+  «within double quotes»
+}

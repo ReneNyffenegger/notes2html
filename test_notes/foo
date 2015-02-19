@@ -1,0 +1,8 @@
++
+$ Foo
+
+{ Some foo id=some_foo
+
+}
+{ more foo id=more_foo
+}

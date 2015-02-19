@@ -1,0 +1,37 @@
+* {font-family: Garamond}
+
+body.private {
+  background-color: #fcc;
+}
+body.public {
+  background-color: #cfc;
+}
+
+h1 {
+  font-size:26;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #55f;
+}
+
+h2 {
+  margin-left: 20px;
+}
+
+h3 {
+  margin-left: 40px;
+}
+
+h4 {
+  margin-left: 60px;
+}
+
+p, br {
+  margin-left: 100px;
+}
+
+
+div.end {
+  height:2000px;
+}
