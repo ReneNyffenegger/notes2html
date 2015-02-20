@@ -54,9 +54,7 @@ sub process_a_note { # {{{
 
     my $class_published = $files{$file}{publish_sign} eq '-' ? 'private' : 'public';
 
-
     my $filename_ascii = '';
-    print $file, "\n";
     for my $c (split //, $file) {
 
 #      print "  $c: ", ord($c), "\n";
