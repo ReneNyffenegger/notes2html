@@ -54,21 +54,7 @@ sub process_a_note { # {{{
 
     my $class_published = $files{$file}{publish_sign} eq '-' ? 'private' : 'public';
 
-    my $filename_ascii = '';
-    for my $c (split //, $file) {
-
-#      print "  $c: ", ord($c), "\n";
-
-       if    (ord($c) == 228) { $filename_ascii .= 'ae'; }
-       elsif (ord($c) == 246) { $filename_ascii .= 'oe'; }
-       elsif (ord($c) == 252) { $filename_ascii .= 'ue'; }
-       elsif (ord($c) == 196) { $filename_ascii .= 'Ae'; }
-       elsif (ord($c) == 214) { $filename_ascii .= 'Oe'; }
-       elsif (ord($c) == 220) { $filename_ascii .= 'Ue'; }
-       elsif (ord($c) == 223) { $filename_ascii .= 'ss'; }
-       else                   { $filename_ascii .=  $c ; }
-      
-    }
+    my $filename_ascii = replace_non_ascii($file);
 
     open $out, '>:encoding(UTF-8)', "$out_dir/$filename_ascii.html" or die "could not open $out_dir/$filename_ascii.html";
     print $out "<!DOCTYPE html>\n";
@@ -299,7 +285,7 @@ sub links_here { # {{{
 sub html_address_for_id { # {{{
     my $id = shift;
 
-    my $address = $ids{$id}{file}. '.html';
+    my $address = replace_non_ascii($ids{$id}{file}). '.html';
 
     if ($ids{$id}{is_anchor}) {
       $address .= "#$id";
@@ -320,4 +306,24 @@ sub html_link_for_id { # {{{
     $link .=  $ids{$id}{title};
     $link .=  " [$debug_1/$debug_2]" if $debug and ($debug_1 or $debug_2);
     $link .= '</a>';
+} # }}}
+
+sub replace_non_ascii { # {{{
+    my $non_ascii = shift;
+    
+    my $ascii = '';
+    for my $c (split //, $non_ascii) {
+
+       if    (ord($c) == 228) { $ascii .= 'ae'; }
+       elsif (ord($c) == 246) { $ascii .= 'oe'; }
+       elsif (ord($c) == 252) { $ascii .= 'ue'; }
+       elsif (ord($c) == 196) { $ascii .= 'Ae'; }
+       elsif (ord($c) == 214) { $ascii .= 'Oe'; }
+       elsif (ord($c) == 220) { $ascii .= 'Ue'; }
+       elsif (ord($c) == 223) { $ascii .= 'ss'; }
+       else                   { $ascii .=  $c ; }
+      
+    }
+
+    return $ascii;
 } # }}}
