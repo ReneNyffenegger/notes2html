@@ -54,7 +54,25 @@ sub process_a_note { # {{{
 
     my $class_published = $files{$file}{publish_sign} eq '-' ? 'private' : 'public';
 
-    open $out, '>:encoding(UTF-8)', "$out_dir/$file.html" or die "could not open $out_dir/$file.html";
+
+    my $filename_ascii = '';
+    print $file, "\n";
+    for my $c (split //, $file) {
+
+#      print "  $c: ", ord($c), "\n";
+
+       if    (ord($c) == 228) { $filename_ascii .= 'ae'; }
+       elsif (ord($c) == 246) { $filename_ascii .= 'oe'; }
+       elsif (ord($c) == 252) { $filename_ascii .= 'ue'; }
+       elsif (ord($c) == 196) { $filename_ascii .= 'Ae'; }
+       elsif (ord($c) == 214) { $filename_ascii .= 'Oe'; }
+       elsif (ord($c) == 220) { $filename_ascii .= 'Ue'; }
+       elsif (ord($c) == 223) { $filename_ascii .= 'ss'; }
+       else                   { $filename_ascii .=  $c ; }
+      
+    }
+
+    open $out, '>:encoding(UTF-8)', "$out_dir/$filename_ascii.html" or die "could not open $out_dir/$filename_ascii.html";
     print $out "<!DOCTYPE html>\n";
     print $out qq{<html><head>
 <title>$files{$file}{title}</title>
@@ -206,19 +224,8 @@ sub process_a_note { # {{{
 
              if ($files{$ids{$1}{file}}{publish_sign} eq '+') {
 
-               if ($ids{$1}{is_anchor}) {
-  
-                 $ret = "<a href=\"$ids{$1}{file}.html#$1\">";
-  
-               }
-               else {
-  
-                 $ret = "<a href=\"$ids{$1}{file}.html\">";
-               }
-  
-               $ret .= $ids{$1}{title};
-  
-               $ret .= '</a>';
+               $ret = html_link_for_id($1, '', '');
+
              }
              else {
                $ret = "<i>$ids{$1}{title}</i>";
@@ -259,7 +266,6 @@ sub process_a_note { # {{{
 
 
   if ($pass == 2) {
-#       print $out "What links here: $file?<br>";
     links_here($file, $out);
     print $out '<div class="end"></div>';
     print $out "</body></html>";
@@ -283,19 +289,37 @@ sub links_here { # {{{
         $first = 0;
         print $out "<p class='links_here'>Inbound links\n";
       }
-      print $out "<br><a href=\"$ids{$links_here_id}{file}.html";
-
-      if ($ids{$links_here_id}{is_anchor}) {
-        print $out "#$links_here_id";
-      }
-      
-      print $out "\">$ids{$links_here_id}{title}";
-      print $out " [$id/$links_here_id]" if $debug; 
-      print $out "</a>\n";
+      print $out '<br>' . html_link_for_id($links_here_id, $id, $links_here_id) . "\n";
 
     }
 
     unless ($first) {
       print $out "</p>\n";
     }
+} # }}}
+
+sub html_address_for_id { # {{{
+    my $id = shift;
+
+    my $address = $ids{$id}{file}. '.html';
+
+    if ($ids{$id}{is_anchor}) {
+      $address .= "#$id";
+    }
+
+    return $address;
+
+} # }}}
+
+sub html_link_for_id { # {{{
+    my $id      = shift;
+    my $debug_1 = shift;
+    my $debug_2 = shift;
+    
+    my $link = '';
+    $link .=   "<a href=\"" . html_address_for_id($id) . "\">";
+
+    $link .=  $ids{$id}{title};
+    $link .=  " [$debug_1/$debug_2]" if $debug and ($debug_1 or $debug_2);
+    $link .= '</a>';
 } # }}}
