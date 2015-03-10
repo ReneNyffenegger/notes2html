@@ -71,6 +71,7 @@ sub process_a_note { # {{{
 
 
   my $publish_sign = shift @lines; # {{{
+
   chomp $publish_sign;
 
   if ($pass == 1) {
@@ -82,15 +83,25 @@ sub process_a_note { # {{{
 
   my $title_line = shift @lines; # {{{
 
+  chomp $title_line;
+  my $title;
+
+  ($title) = $title_line =~ /^\$ *(.*)/;
+
+  unless ($title) {
+
+    ($title = $file) =~ s/_/ /g;
+    unshift @lines, $title_line;
+
+  }
+
   if ($pass == 1) {
-    chomp $title_line;
-    my $title;
-    die ">$file< $title_line: no valid title" unless ($title) = $title_line =~ /^\$ *(.*)/;
-  
     $files{$file}{title}=$title;
     $ids{$file}{title} = $title;
     $ids{$file}{file}  = $file;
-  } # }}}
+  }
+
+  # }}}
 
   for my $line (@lines) { # {{{
     my $id = $2 if $line =~ s/(^|\s)id=(\w+)//;
