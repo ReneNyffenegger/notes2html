@@ -265,7 +265,7 @@ sub links_here { # {{{
 
     my $first = 1;
 
-    for my $links_here_id (keys %{$ids{$id}{links_here}}) {
+    for my $links_here_id (sort {$ids{$a}{title} cmp $ids{$b}{title}} keys %{$ids{$id}{links_here}}) {
 
       next if $files{  $ids{$links_here_id}{file}  }{publish_sign} eq '-';
       
