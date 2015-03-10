@@ -107,7 +107,7 @@ sub process_a_note { # {{{
     my ($h) = $+ if $line =~ /^ *{ *(.*)/;
 
 
-    if ($h) {
+    if ($h) {                    # {{{ Line contains start of a heading
 
       $h =~ s/\s*$//;
 
@@ -115,11 +115,6 @@ sub process_a_note { # {{{
         $ids{$id}{title} = $h;
         $ids{$id}{is_anchor} = 1;
       }
-    }
-
-
-    if ($h) {                    # {{{ Line contains start of a heading
-
 
       if ($pass == 2) {
 
