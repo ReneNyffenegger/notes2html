@@ -434,13 +434,13 @@
        xml:space="preserve"
        style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Open Sans;-inkscape-font-specification:Open Sans"
        x="855.60779"
-       y="365.02286"
+       y="376.45142"
        id="text3755-1-6-3"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3757-7-14-4"
          x="855.60779"
-         y="365.02286"
+         y="376.45142"
          style="font-size:9px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Open Sans;-inkscape-font-specification:Open Sans">Some foo</tspan></text>
     <text
        xml:space="preserve"
@@ -458,13 +458,13 @@
        xml:space="preserve"
        style="font-size:9px;font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000080;fill-opacity:1;stroke:none;font-family:Open Sans;-inkscape-font-specification:Open Sans Oblique"
        x="901.31024"
-       y="365.02292"
+       y="376.45148"
        id="text3755-1-4-8-2-5-7"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3757-7-0-8-7-4-4"
          x="901.31024"
-         y="365.02292"
+         y="376.45148"
          style="font-size:9px;font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000080;font-family:Open Sans;-inkscape-font-specification:Open Sans Oblique">#some_foo</tspan></text>
     <text
        xml:space="preserve"
@@ -582,5 +582,17 @@
        id="path4324-0-3-9"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-size:24px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Open Sans;-inkscape-font-specification:Open Sans"
+       x="855.15552"
+       y="360.76135"
+       id="text3755-2-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3757-3-7"
+         x="855.15552"
+         y="360.76135"
+         style="font-size:9px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr;text-anchor:start;font-family:Courier New;-inkscape-font-specification:Courier New Bold;fill:#ff0000">$</tspan></text>
   </g>
 </svg>
