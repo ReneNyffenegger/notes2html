@@ -114,6 +114,7 @@ sub process_a_note { # {{{
       if ($pass == 1 and $id) {
         $ids{$id}{title} = $h;
         $ids{$id}{is_anchor} = 1;
+        $ids{$id}{file}=$file;
       }
 
       if ($pass == 2) {
@@ -139,7 +140,7 @@ sub process_a_note { # {{{
         $current_id        = $id;
       }
       else {
-        $stack_entry->{id} = $current_id;
+        $stack_entry->{id} = '';
       }
       push @h_stack, $stack_entry;
 
@@ -149,7 +150,7 @@ sub process_a_note { # {{{
     elsif ($line =~ /^ *} *$/) { # {{{ The section belonging to the heading ends
 
       my $stack_entry = pop @h_stack;
-      $current_id = $stack_entry->{id};
+      my $current_id = $stack_entry->{id};
 
       if ($pass == 2) {
 #       print $out "<p>current_id = $current_id</p>\n";
@@ -160,7 +161,7 @@ sub process_a_note { # {{{
           $in_p = 0;
         }
 
-        links_here($current_id, $out);
+        links_here($current_id, $out) if $current_id;
   
       }
 
