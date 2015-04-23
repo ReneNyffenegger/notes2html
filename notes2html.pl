@@ -75,7 +75,7 @@ sub process_a_note { # {{{
   chomp $publish_sign;
 
   if ($pass == 1) {
-    die "$file, publish_sign: $publish_sign" unless $publish_sign eq '-' or $publish_sign eq '+';
+    die "$file, publish_sign >$publish_sign<" unless $publish_sign eq '-' or $publish_sign eq '+';
 
     $files{$file}{publish_sign} = $publish_sign unless exists $files{$file}{publish_sign};
   }
