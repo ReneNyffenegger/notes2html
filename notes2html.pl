@@ -114,7 +114,7 @@ sub process_a_note { # {{{
   # }}}
 
   for my $line (@lines) { # {{{
-    my $id = $2 if $line =~ s/(^|\s)id=(\w+)//;
+    my $id = $2 if $line =~ s/(^|\s)#(\w+)//;
 
     if ($id) {
 

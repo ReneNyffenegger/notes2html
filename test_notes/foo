@@ -1,6 +1,6 @@
 +
-{ Some foo id=some_foo
+{ Some foo #some_foo
 
 }
-{ more foo id=more_foo
+{ more foo #more_foo
 }

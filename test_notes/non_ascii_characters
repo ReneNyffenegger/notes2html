@@ -1,7 +1,7 @@
 +
 $ Non ASCII Characters
 
-{ Umlaute id=umlaute
+{ Umlaute #umlaute
 
   ä, ö, ü, Ä, Ö, Ü.
 }

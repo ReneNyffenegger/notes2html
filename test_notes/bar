@@ -1,14 +1,14 @@
 +
 $ Bar
 
-{ Some bar id=some_bar
+{ Some bar #some_bar
 
   well, some bar.
 
   Link to →umlaute
 
 }
-{ Other bar id=other_bar
+{ Other bar #other_bar
 
   oh, the other bar.
 

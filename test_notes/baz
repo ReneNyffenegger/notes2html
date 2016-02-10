@@ -4,7 +4,7 @@ $ Baz
 { This is a h2
 
 
-  { This is a h3 id=baz_h3
+  { This is a h3 #baz_h3
 
     { This is a h4
 
