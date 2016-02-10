@@ -8,6 +8,7 @@ use utf8;
 use Getopt::Long;
 use File::Basename;
 
+$| = 1;
 
 my %files;
 my %ids;
@@ -18,8 +19,6 @@ GetOptions (
 
 my $in_dir   = shift or die;
 my $out_dir  = shift or die;
-
-
 
 for my $pass (1..2) {
   for my $file (glob "$in_dir/*") {
