@@ -209,7 +209,7 @@ sub process_a_note { # {{{
 
          }
 
-         $line =~ s{→ *(\w+)}{
+         $line =~ s{→ *([\w_-]+)}{
 
            my $ret = '';
 
