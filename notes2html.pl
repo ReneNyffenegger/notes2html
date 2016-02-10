@@ -83,17 +83,28 @@ sub process_a_note { # {{{
 
   my $title_line = shift @lines; # {{{
 
-  chomp $title_line;
   my $title;
+  if ($title_line) {
 
-  ($title) = $title_line =~ /^\$ *(.*)/;
+    chomp $title_line;
 
-  unless ($title) {
+    ($title) = $title_line =~ /^\$ *(.*)/;
 
-    ($title = $file) =~ s/_/ /g;
-    unshift @lines, $title_line;
+    unless ($title) {
+
+      ($title = $file) =~ s/_/ /g;
+      unshift @lines, $title_line;
+
+      ($title = $file) =~ y/-_/  /;
+
+    }
+  }
+  else { # File consists of only one line: the one with the publish sign. -> test_notes\publish-sign-only
+
+    ($title = $file) =~ y/-_/  /;
 
   }
+
 
   if ($pass == 1) {
     $files{$file}{title}=$title;
